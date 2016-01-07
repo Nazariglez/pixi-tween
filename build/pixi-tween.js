@@ -29446,19 +29446,106 @@
 
 /***/ },
 /* 138 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
+	var _Tween = __webpack_require__(139);
+	
+	var _Tween2 = _interopRequireDefault(_Tween);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var TweenManager = function TweenManager() {
-	  _classCallCheck(this, TweenManager);
-	};
+	var TweenManager = function () {
+	  function TweenManager() {
+	    _classCallCheck(this, TweenManager);
+	
+	    this.tweens = [];
+	    this._tweensToDelete = [];
+	
+	    this._last = 0;
+	  }
+	
+	  _createClass(TweenManager, [{
+	    key: 'update',
+	    value: function update(delta) {
+	      var deltaMS = undefined;
+	      if (!delta && delta !== 0) {
+	        deltaMS = this._getDeltaMS();
+	        delta = deltaMS / 1000;
+	      } else {
+	        deltaMS = delta * 1000;
+	      }
+	
+	      for (var i = 0; i < this.tweens.length; i++) {
+	        var tween = this.tweens[i];
+	        if (tween.active) {
+	          tween.update(delta, deltaMS);
+	          if (tween.isEnded && tween.expire) {
+	            tween.remove();
+	          }
+	        }
+	      }
+	
+	      if (this._tweensToDelete.length) {
+	        for (var i = 0; i < this._tweensToDelete.length; i++) {
+	          this._remove(this._tweensToDelete[i]);
+	        }this._tweensToDelete.length = 0;
+	      }
+	    }
+	  }, {
+	    key: 'getTweensForTarget',
+	    value: function getTweensForTarget(target) {
+	      var tweens = [];
+	      for (var i = 0; i < this.tweens.length; i++) {
+	        if (this.tweens[i].target === target) tweens.push(this.tweens[i]);
+	      }
+	
+	      return tweens;
+	    }
+	  }, {
+	    key: 'createTween',
+	    value: function createTween(target) {
+	      return new _Tween2.default(target, this);
+	    }
+	  }, {
+	    key: 'addTween',
+	    value: function addTween(tween) {
+	      tween.manager = this;
+	      this.tweens.push(tween);
+	    }
+	  }, {
+	    key: 'removeTween',
+	    value: function removeTween(tween) {
+	      this._tweensToDelete.push(tween);
+	    }
+	  }, {
+	    key: '_remove',
+	    value: function _remove(tween) {
+	      var index = this.tweens.indexOf(tween);
+	      if (index !== -1) this.tweens.splice(index, 1);
+	    }
+	  }, {
+	    key: '_getDeltaMS',
+	    value: function _getDeltaMS() {
+	      if (this._last === 0) this._last = Date.now();
+	      var now = Date.now();
+	      var deltaMS = now - this._last;
+	      this._last = now;
+	      return deltaMS;
+	    }
+	  }]);
+	
+	  return TweenManager;
+	}();
 	
 	exports.default = TweenManager;
 
