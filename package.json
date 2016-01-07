@@ -1,0 +1,36 @@
+{
+  "name": "pixi-tween",
+  "version": "1.0.0",
+  "description": "pixi-tween is a plugin for Pixi.js v3.0.8 or higher to create ...",
+  "main": "./build/pixi-timer.js",
+  "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
+  "license": "MIT",
+  "keywords": [
+    "pixi",
+    "tweenmanager",
+    "animation",
+    "tween"
+  ],
+  "homepage": "https://github.com/Nazariglez/pixi-tween",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nazariglez/pixi-tween.git"
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "dev": "webpack --config webpack.config.js --progress --inline --colors --watch",
+    "build": "NODE_ENV=production webpack --config webpack.config.js --progress --colors -p"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.17",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-runtime": "^6.3.13",
+    "brfs": "^1.4.1",
+    "json-loader": "^0.5.4",
+    "pixi.js": "^3.0.8",
+    "transform-loader": "^0.2.3",
+    "webpack": "^1.12.9"
+  }
+}
