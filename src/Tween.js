@@ -114,7 +114,7 @@ export default class Tween extends PIXI.utils.EventEmitter{
       this._apply(time);
 
       let realElapsed = this._pingPong ? time+this._elapsedTime : this._elapsedTime;
-      this.emit('update');
+      this.emit('update', realElapsed);
 
       if(ended){
         if(this.pingPong && !this._pingPong){
