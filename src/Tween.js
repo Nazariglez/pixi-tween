@@ -196,14 +196,13 @@ export default class Tween extends PIXI.utils.EventEmitter{
     if(this.path){
       let time = (this.pingPong) ? this.time/2 : this.time;
       let b = this.pathFrom;
-      let c = this.pathTo - this.pathForm;
+      let c = this.pathTo - this.pathFrom;
       let d = time;
       let t = this._elapsedTime/d;
 
       let distance = b+(c*this.easing(t));
       let pos = this.path.getPointAtDistance(distance);
-      this.target.x = pos.x;
-      this.target.y = pos.y;
+      this.target.position.set(pos.x, pos.y);
     }
   }
 

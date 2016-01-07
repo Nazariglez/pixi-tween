@@ -29428,11 +29428,22 @@
 	
 	var _Tween2 = _interopRequireDefault(_Tween);
 	
+	var _TweenPath = __webpack_require__(141);
+	
+	var _TweenPath2 = _interopRequireDefault(_TweenPath);
+	
 	var _Easing = __webpack_require__(140);
 	
 	var _Easing2 = _interopRequireDefault(_Easing);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//extend pixi graphics to draw tweenPaths
+	_pixi2.default.Graphics.prototype.drawPath = function (path) {
+	  path.parsePoints();
+	  this.drawShape(path.polygon);
+	  return this;
+	};
 	
 	if (!_pixi2.default.TweenManager) {
 	  var tweenManager = new _TweenManager2.default();
@@ -29440,6 +29451,7 @@
 	  _pixi2.default.TweenManager = _TweenManager2.default;
 	  _pixi2.default.Tween = _Tween2.default;
 	  _pixi2.default.Easing = _Easing2.default;
+	  _pixi2.default.TweenPath = _TweenPath2.default;
 	  _pixi2.default.tween = tweenManager;
 	}
 	exports.default = _pixi2.default.tween;
@@ -29791,14 +29803,13 @@
 	      if (this.path) {
 	        var _time = this.pingPong ? this.time / 2 : this.time;
 	        var b = this.pathFrom;
-	        var c = this.pathTo - this.pathForm;
+	        var c = this.pathTo - this.pathFrom;
 	        var d = _time;
 	        var t = this._elapsedTime / d;
 	
 	        var distance = b + c * this.easing(t);
 	        var pos = this.path.getPointAtDistance(distance);
-	        this.target.x = pos.x;
-	        this.target.y = pos.y;
+	        this.target.position.set(pos.x, pos.y);
 	      }
 	    }
 	  }, {
@@ -30094,6 +30105,244 @@
 	};
 	
 	exports.default = Easing;
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _pixi = __webpack_require__(1);
+	
+	var _pixi2 = _interopRequireDefault(_pixi);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var TweenPath = function () {
+	  function TweenPath() {
+	    _classCallCheck(this, TweenPath);
+	
+	    this._colsed = false;
+	    this.polygon = new _pixi2.default.Polygon();
+	    this.polygon.closed = false;
+	    this._tmpPoint = new _pixi2.default.Point();
+	    this._tmpPoint2 = new _pixi2.default.Point();
+	    this._tmpDistance = [];
+	
+	    this.currentPath = null;
+	    this.graphicsData = [];
+	    this.dirty = true;
+	  }
+	
+	  _createClass(TweenPath, [{
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      _pixi2.default.Graphics.prototype.moveTo.call(this, x, y);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'lineTo',
+	    value: function lineTo(x, y) {
+	      _pixi2.default.Graphics.prototype.lineTo.call(this, x, y);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'bezierCurveTo',
+	    value: function bezierCurveTo(cpX, cpY, cpX2, cpY2, toX, toY) {
+	      _pixi2.default.Graphics.prototype.bezierCurveTo.call(this, cpX, cpY, cpX2, cpY2, toX, toY);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'quadraticCurveTo',
+	    value: function quadraticCurveTo(cpX, cpY, toX, toY) {
+	      _pixi2.default.Graphics.prototype.quadraticCurveTo.call(this, cpX, cpY, toX, toY);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'arcTo',
+	    value: function arcTo(x1, y1, x2, y2, radius) {
+	      _pixi2.default.Graphics.prototype.arcTo.call(this, x1, y1, x2, y2, radius);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'arc',
+	    value: function arc(cx, cy, radius, startAngle, endAngle, anticlockwise) {
+	      _pixi2.default.Graphics.prototype.arc.call(this, cx, cy, radius, startAngle, endAngle, anticlockwise);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'drawShape',
+	    value: function drawShape(shape) {
+	      _pixi2.default.Graphics.prototype.drawShape.call(this, shape);
+	      this.dirty = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'getPoint',
+	    value: function getPoint(num) {
+	      this.parsePoints();
+	      var len = this.closed && num >= this.length - 1 ? 0 : num * 2;
+	      this._tmpPoint.set(this.polygon.points[len], this.polygon.points[len + 1]);
+	      return this._tmpPoint;
+	    }
+	  }, {
+	    key: 'distanceBetween',
+	    value: function distanceBetween(num1, num2) {
+	      this.parsePoints();
+	
+	      var _getPoint = this.getPoint(num1);
+	
+	      var p1X = _getPoint.x;
+	      var p1Y = _getPoint.y;
+	
+	      var _getPoint2 = this.getPoint(num2);
+	
+	      var p2X = _getPoint2.x;
+	      var p2Y = _getPoint2.y;
+	
+	      var dx = p2X - p1X;
+	      var dy = p2Y - p1Y;
+	
+	      return Math.sqrt(dx * dx + dy * dy);
+	    }
+	  }, {
+	    key: 'totalDistance',
+	    value: function totalDistance() {
+	      this.parsePoints();
+	      this._tmpDistance.length = 0;
+	      this._tmpDistance.push(0);
+	
+	      var len = this.length;
+	      var distance = 0;
+	      for (var i = 0; i < len - 1; i++) {
+	        distance += this.distanceBetween(i, i + 1);
+	        this._tmpDistance.push(distance);
+	      }
+	
+	      return distance;
+	    }
+	  }, {
+	    key: 'getPointAt',
+	    value: function getPointAt(num) {
+	      this.parsePoints();
+	      if (num > this.length) {
+	        return this.getPoint(this.length - 1);
+	      }
+	
+	      if (num % 1 === 0) {
+	        return this.getPoint(num);
+	      } else {
+	        this._tmpPoint2.set(0, 0);
+	        var diff = num % 1;
+	
+	        var _getPoint3 = this.getPoint(Math.ceil(num));
+	
+	        var ceilX = _getPoint3.x;
+	        var ceilY = _getPoint3.y;
+	
+	        var _getPoint4 = this.getPoint(Math.floor(num));
+	
+	        var floorX = _getPoint4.x;
+	        var floorY = _getPoint4.y;
+	
+	        var xx = -((floorX - ceilX) * diff);
+	        var yy = -((floorY - ceilY) * diff);
+	        this._tmpPoint2.set(floorX + xx, floorY + yy);
+	        return this._tmpPoint2;
+	      }
+	    }
+	  }, {
+	    key: 'getPointAtDistance',
+	    value: function getPointAtDistance(distance) {
+	      this.parsePoints();
+	      if (!this._tmpDistance) this.totalDistance();
+	      var len = this._tmpDistance.length;
+	      var n = 0;
+	
+	      var totalDistance = this._tmpDistance[this._tmpDistance.length - 1];
+	      if (distance < 0) {
+	        distance = totalDistance + distance;
+	      } else if (distance > totalDistance) {
+	        distance = distance - totalDistance;
+	      }
+	
+	      for (var i = 0; i < len; i++) {
+	        if (distance >= this._tmpDistance[i]) {
+	          n = i;
+	        }
+	
+	        if (distance < this._tmpDistance[i]) break;
+	      }
+	
+	      if (n === this.length - 1) {
+	        return this.getPointAt(n);
+	      }
+	
+	      var diff1 = distance - this._tmpDistance[n];
+	      var diff2 = this._tmpDistance[n + 1] - this._tmpDistance[n];
+	
+	      return this.getPointAt(n + diff1 / diff2);
+	    }
+	  }, {
+	    key: 'parsePoints',
+	    value: function parsePoints() {
+	      if (!this.dirty) return this;
+	      this.dirty = false;
+	      this.polygon.points.length = 0;
+	      for (var i = 0; i < this.graphicsData.length; i++) {
+	        var shape = this.graphicsData[i].shape;
+	        if (shape && shape.points) {
+	          this.polygon.points = this.polygon.points.concat(shape.points);
+	        }
+	      }
+	      return this;
+	    }
+	  }, {
+	    key: 'clear',
+	    value: function clear() {
+	      this.graphicsData.length = 0;
+	      this.currentPath = null;
+	      this.polygon.points.length = 0;
+	      this._closed = false;
+	      this.dirty = false;
+	      return this;
+	    }
+	  }, {
+	    key: 'closed',
+	    get: function get() {
+	      return this._closed;
+	    },
+	    set: function set(value) {
+	      if (this._closed === value) return;
+	      this.polygon.closed = value;
+	      this._closed = value;
+	      this.dirty = true;
+	    }
+	  }, {
+	    key: 'length',
+	    get: function get() {
+	      return this.polygon.points.length ? this.polygon.points.length / 2 + (this._closed ? 1 : 0) : 0;
+	    }
+	  }]);
+	
+	  return TweenPath;
+	}();
+	
+	exports.default = TweenPath;
 
 /***/ }
 /******/ ]);
