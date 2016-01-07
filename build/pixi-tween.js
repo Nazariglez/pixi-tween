@@ -29551,21 +29551,174 @@
 
 /***/ },
 /* 139 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
+	var _pixi = __webpack_require__(1);
+	
+	var _pixi2 = _interopRequireDefault(_pixi);
+	
+	var _Easing = __webpack_require__(140);
+	
+	var _Easing2 = _interopRequireDefault(_Easing);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Tween = function Tween() {
-	  _classCallCheck(this, Tween);
-	};
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Tween = function (_PIXI$utlis$EventEmit) {
+	  _inherits(Tween, _PIXI$utlis$EventEmit);
+	
+	  function Tween(target, manager) {
+	    _classCallCheck(this, Tween);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Tween).call(this));
+	
+	    _this.target = target;
+	    if (manager) _this.addTo(manager);
+	
+	    _this.time = 0;
+	    _this.active = false;
+	    _this.easing = _Easing2.default.linear();
+	    _this.expire = false;
+	    _this.repeat = 0;
+	    _this.loop = false;
+	    _this.delay = 0;
+	    _this.pingPong = false;
+	    _this.isStarted = false;
+	    _this.isEnded = false;
+	
+	    _this._to = null;
+	    _this._from = null;
+	    _this._delayTime = 0;
+	    _this._elapsedTime = 0;
+	    _this._repeat = 0;
+	    _this._pingPong = false;
+	
+	    _this._chainTween = null;
+	
+	    _this.path = null;
+	    _this.pathReverse = false;
+	    _this.pathFrom = 0;
+	    _this.pathTo = 0;
+	    return _this;
+	  }
+	
+	  _createClass(Tween, [{
+	    key: 'addTo',
+	    value: function addTo(manager) {
+	      this.manager = manager;
+	      this.manager.addTween(this);
+	      return this;
+	    }
+	  }, {
+	    key: 'chain',
+	    value: function chain(tween) {
+	      if (!tween) tween = new Tween(this.target);
+	      this._chainTween = tween;
+	      return tween;
+	    }
+	  }, {
+	    key: 'start',
+	    value: function start() {
+	      this.active = true;
+	      return this;
+	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      this.active = false;
+	      this.emit('stop');
+	      return this;
+	    }
+	  }, {
+	    key: 'to',
+	    value: function to(data) {
+	      this._to = data;
+	      return this;
+	    }
+	  }, {
+	    key: 'from',
+	    value: function from(data) {
+	      this._from = data;
+	      return this;
+	    }
+	  }, {
+	    key: 'remove',
+	    value: function remove() {
+	      if (!this.manager) return this;
+	      this.manager.removeTween(this);
+	      return this;
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      this._elapsedTime = 0;
+	      this._repeat = 0;
+	      this._delayTime = 0;
+	      this.isStarted = false;
+	      this.isEnded = false;
+	
+	      if (this.pingPong && this._pingPong) {
+	        var _to = this._to;
+	        var _from = this._from;
+	        this._to = _from;
+	        this._from = _to;
+	
+	        this._pingPong = false;
+	      }
+	
+	      return this;
+	    }
+	  }]);
+	
+	  return Tween;
+	}(_pixi2.default.utlis.EventEmitter);
 	
 	exports.default = Tween;
+	
+	function _recursiveApplyTween(to, from, target, time, elapsed, easing) {
+	  for (var k in to) {
+	    if (!_isObject(to[k])) {
+	      var b = from[k];
+	      var c = to[k] - from[k];
+	      var d = time;
+	      var t = elapsed / d;
+	
+	      target[k] = b + c * easing(t);
+	    } else {
+	      _recursiveApplyTween(to[k], from[k], target[k], time, elapsed, easing);
+	    }
+	  }
+	}
+	
+	function _parseRecursiveData(to, from, target) {
+	  for (var k in to) {
+	    if (from[k] !== 0 && !from[k]) {
+	      if (_isObject(target(k))) {
+	        from[k] = JSON.parse(JSON.stringify(target[k]));
+	        _parseRecursiveData(to[k], from[k], target[k]);
+	      } else {
+	        from[k] = target[k];
+	      }
+	    }
+	  }
+	}
+	
+	function _isObject(obj) {
+	  return Object.prototype.toString.call(obj) === "[object Object]";
+	}
 
 /***/ },
 /* 140 */
