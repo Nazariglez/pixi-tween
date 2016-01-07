@@ -8,13 +8,42 @@
 </head>
 <body>
   <script>
-    var renderer = new PIXI.autoDetectRenderer(800,600);
+    var renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.view);
     var stage = new PIXI.Container();
+
+    var t = new PIXI.Graphics()
+      .beginFill(0xffffff)
+      .drawRect(0, 0, 10, 10)
+      .endFill()
+      .generateTexture();
 
     function animate(){
       window.requestAnimationFrame(animate);
       renderer.render(stage);
+      PIXI.tween.update();
+    }
+
+    var h = 10;
+    function createObj(easing){
+      var sprite = new PIXI.Sprite(t);
+      sprite.position.set(50, h);
+      h += 20;
+      stage.addChild(sprite);
+
+      var tween = PIXI.tween.createTween(sprite);
+      tween.easing = easing || PIXI.Easing.linear();
+      tween.time = 6000;
+      tween.pingPong = true;
+      tween.loop = true;
+      tween.to({
+        x : 700
+      }).start();
+
+    }
+
+    for(var k in PIXI.Easing){
+      createObj(PIXI.Easing[k]());
     }
 
     animate();

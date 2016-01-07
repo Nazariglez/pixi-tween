@@ -29577,8 +29577,8 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Tween = function (_PIXI$utlis$EventEmit) {
-	  _inherits(Tween, _PIXI$utlis$EventEmit);
+	var Tween = function (_PIXI$utils$EventEmit) {
+	  _inherits(Tween, _PIXI$utils$EventEmit);
 	
 	  function Tween(target, manager) {
 	    _classCallCheck(this, Tween);
@@ -29681,10 +29681,135 @@
 	
 	      return this;
 	    }
+	  }, {
+	    key: 'update',
+	    value: function update(delta, deltaMS) {
+	      if (!this._canUpdate() && (this._to || this.path)) return;
+	      var _to = undefined,
+	          _from = undefined;
+	      if (this.delay > this._delayTime) {
+	        this._delayTime += deltaMS;
+	        return;
+	      }
+	
+	      if (!this.isStarted) {
+	        this._parseData();
+	        this.isStarted = true;
+	        this.emit('start');
+	      }
+	
+	      var time = this.pingPong ? this.time / 2 : this.time;
+	      if (time > this._elapsedTime) {
+	        var t = this._elapsedTime + deltaMS;
+	        var ended = t >= time;
+	
+	        this._elapsedTime = ended ? time : t;
+	        this._apply(time);
+	
+	        var realElapsed = this._pingPong ? time + this._elapsedTime : this._elapsedTime;
+	        this.emit('update');
+	
+	        if (ended) {
+	          if (this.pingPong && !this._pingPong) {
+	            this._pingPong = true;
+	            _to = this._to;
+	            _from = this._from;
+	            this._from = _to;
+	            this._to = _from;
+	
+	            if (this.path) {
+	              _to = this.pathTo;
+	              _from = this.pathFrom;
+	              this.pathTo = _from;
+	              this.pathFrom = _to;
+	            }
+	
+	            this.emit('pingpong');
+	            this._elapsedTime = 0;
+	            return;
+	          }
+	
+	          if (this.loop || this.repeat > this._repeat) {
+	            this._repeat++;
+	            this.emit('repeat', this._repeat);
+	            this._elapsedTime = 0;
+	
+	            if (this.pingPong && this._pingPong) {
+	              _to = this._to;
+	              _from = this._from;
+	              this._to = _from;
+	              this._from = _to;
+	
+	              if (this.path) {
+	                _to = this.pathTo;
+	                _from = this.pathFrom;
+	                this.pathTo = _from;
+	                this.pathFrom = _to;
+	              }
+	
+	              this._pingPong = false;
+	            }
+	            return;
+	          }
+	
+	          this.isEnded = true;
+	          this.active = false;
+	          this.emit('end');
+	
+	          if (this._chainTween) {
+	            this._chainTween.addTo(this.manager);
+	            this._chainTween.start();
+	          }
+	        }
+	        return;
+	      }
+	    }
+	  }, {
+	    key: '_parseData',
+	    value: function _parseData() {
+	      if (this.isStarted) return;
+	
+	      if (!this._from) this._from = {};
+	      _parseRecursiveData(this._to, this._from, this.target);
+	
+	      if (this.path) {
+	        var distance = this.path.totalDistance();
+	        if (this.pathReverse) {
+	          this.pathFrom = distance;
+	          this.pathTo = 0;
+	        } else {
+	          this.pathFrom = 0;
+	          this.pathTo = distance;
+	        }
+	      }
+	    }
+	  }, {
+	    key: '_apply',
+	    value: function _apply(time) {
+	      _recursiveApplyTween(this._to, this._from, this.target, time, this._elapsedTime, this.easing);
+	
+	      if (this.path) {
+	        var _time = this.pingPong ? this.time / 2 : this.time;
+	        var b = this.pathFrom;
+	        var c = this.pathTo - this.pathForm;
+	        var d = _time;
+	        var t = this._elapsedTime / d;
+	
+	        var distance = b + c * this.easing(t);
+	        var pos = this.path.getPointAtDistance(distance);
+	        this.target.x = pos.x;
+	        this.target.y = pos.y;
+	      }
+	    }
+	  }, {
+	    key: '_canUpdate',
+	    value: function _canUpdate() {
+	      return this.time && this.active && this.target;
+	    }
 	  }]);
 	
 	  return Tween;
-	}(_pixi2.default.utlis.EventEmitter);
+	}(_pixi2.default.utils.EventEmitter);
 	
 	exports.default = Tween;
 	
@@ -29706,7 +29831,7 @@
 	function _parseRecursiveData(to, from, target) {
 	  for (var k in to) {
 	    if (from[k] !== 0 && !from[k]) {
-	      if (_isObject(target(k))) {
+	      if (_isObject(target[k])) {
 	        from[k] = JSON.parse(JSON.stringify(target[k]));
 	        _parseRecursiveData(to[k], from[k], target[k]);
 	      } else {
