@@ -11,13 +11,16 @@ PIXI.Graphics.prototype.drawPath = function(path){
   return this;
 }
 
-if(!PIXI.TweenManager){
-  let tweenManager = new TweenManager();
+let tween = {
+  TweenManager: TweenManager,
+  Tween: Tween,
+  Easing: Easing,
+  TweenPath: TweenPath
+};
 
-  PIXI.TweenManager = TweenManager;
-  PIXI.Tween = Tween;
-  PIXI.Easing = Easing;
-  PIXI.TweenPath = TweenPath;
-  PIXI.tween = tweenManager;
+if(!PIXI.tweenManager){
+  PIXI.tweenManager = new TweenManager();
+
+  PIXI.tween = tween;
 }
-export default PIXI.tween;
+export default tween;

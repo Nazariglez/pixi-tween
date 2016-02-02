@@ -30,7 +30,7 @@
     function animate(){
       window.requestAnimationFrame(animate);
       renderer.render(stage);
-      PIXI.tween.update();
+      PIXI.tweenManager.update();
     }
 
     var h = 10;
@@ -40,8 +40,8 @@
       h += 20;
       stage.addChild(sprite);
 
-      var tween = PIXI.tween.createTween(sprite);
-      tween.easing = easing || PIXI.Easing.linear();
+      var tween = PIXI.tweenManager.createTween(sprite);
+      tween.easing = easing || PIXI.tween.Easing.linear();
       tween.time = 6000;
       tween.pingPong = true;
       tween.loop = true;
@@ -55,7 +55,7 @@
       createObj(PIXI.Easing[k]());
     }*/
 
-    var path = new PIXI.TweenPath();
+    var path = new PIXI.tween.TweenPath();
     path.moveTo(200, 20).lineTo(200, 200);
     path.arcTo(350, 200, 450, 900, 100).lineTo(100, 400);
     path.closed = true;
@@ -70,10 +70,10 @@
     sprite.anchor.set(0.5, 0.5);
     stage.addChild(sprite);
 
-    var tween = PIXI.tween.createTween(sprite);
+    var tween = PIXI.tweenManager.createTween(sprite);
     tween.path = path;
     tween.time = 10000;
-    tween.easing = PIXI.Easing.outBounce();
+    tween.easing = PIXI.tween.Easing.outBounce();
     //tween.pathReverse  =true;
     tween.loop = true;
     tween.start();

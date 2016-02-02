@@ -6,31 +6,7 @@ export default class Tween extends PIXI.utils.EventEmitter{
     super();
     this.target = target;
     if(manager)this.addTo(manager);
-
-    this.time = 0;
-    this.active = false;
-    this.easing = Easing.linear();
-    this.expire = false;
-    this.repeat = 0;
-    this.loop = false;
-    this.delay = 0;
-    this.pingPong = false;
-    this.isStarted = false;
-    this.isEnded = false;
-
-    this._to = null;
-    this._from = null;
-    this._delayTime = 0;
-    this._elapsedTime = 0;
-    this._repeat = 0;
-    this._pingPong = false;
-
-    this._chainTween = null;
-
-    this.path = null;
-    this.pathReverse = false;
-    this.pathFrom = 0;
-    this.pathTo = 0;
+    this.clear();
   }
 
   addTo(manager){
@@ -70,6 +46,33 @@ export default class Tween extends PIXI.utils.EventEmitter{
     if(!this.manager)return this;
     this.manager.removeTween(this);
     return this;
+  }
+
+  clear(){
+    this.time = 0;
+    this.active = false;
+    this.easing = Easing.linear();
+    this.expire = false;
+    this.repeat = 0;
+    this.loop = false;
+    this.delay = 0;
+    this.pingPong = false;
+    this.isStarted = false;
+    this.isEnded = false;
+
+    this._to = null;
+    this._from = null;
+    this._delayTime = 0;
+    this._elapsedTime = 0;
+    this._repeat = 0;
+    this._pingPong = false;
+
+    this._chainTween = null;
+
+    this.path = null;
+    this.pathReverse = false;
+    this.pathFrom = 0;
+    this.pathTo = 0;
   }
 
   reset(){
