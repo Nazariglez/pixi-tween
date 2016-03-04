@@ -1,4 +1,4 @@
-pixi-tween
+pixi-tween - Under Development
 ======================
 
 pixi-tween is a plugin for Pixi.js v3.0.8 or higher to create ...
