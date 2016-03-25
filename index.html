@@ -33,10 +33,16 @@
     obj.anchor.set(0.5);
     stage.addChild(obj);
 
+    var raf;
+
     function animate(){
-      window.requestAnimationFrame(animate);
+      raf = window.requestAnimationFrame(animate);
       renderer.render(stage);
       PIXI.tweenManager.update();
+    }
+
+    function stop(){
+      window.cancelAnimationFrame(raf);
     }
 
     var point1 = new PIXI.Point(renderer.width/4, renderer.height - renderer.height/4);

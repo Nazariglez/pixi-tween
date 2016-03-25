@@ -19,7 +19,8 @@ const Easing = {
 
   inOutQuad: function(){
     return function(k){
-      if ( ( k *= 2 ) < 1 ) return 0.5 * k * k;
+      k *= 2;
+      if ( k < 1 ) return 0.5 * k * k;
       return - 0.5 * ( --k * ( k - 2 ) - 1 );
     };
   },
@@ -38,7 +39,8 @@ const Easing = {
 
   inOutCubic: function(){
     return function(k){
-      if ( ( k *= 2 ) < 1 ) return 0.5 * k * k * k;
+      k *= 2;
+      if ( k < 1 ) return 0.5 * k * k * k;
       k -= 2
       return 0.5 * ( k * k * k + 2 );
     };
@@ -58,7 +60,8 @@ const Easing = {
 
   inOutQuart: function(){
     return function(k){
-      if ( ( k *= 2 ) < 1) return 0.5 * k * k * k * k;
+      k *= 2;
+      if ( k < 1) return 0.5 * k * k * k * k;
       k -= 2;
       return - 0.5 * ( k * k * k * k - 2 );
     };
@@ -78,8 +81,10 @@ const Easing = {
 
   inOutQuint: function(){
     return function(k){
-      if ( ( k *= 2 ) < 1 ) return 0.5 * k * k * k * k * k;
-      return 0.5 * ( ( k -= 2 ) * k * k * k * k + 2 );
+      k *= 2;
+      if ( k < 1 ) return 0.5 * k * k * k * k * k;
+      k -= 2;
+      return 0.5 * ( k * k * k * k * k + 2 );
     };
   },
 
@@ -117,7 +122,8 @@ const Easing = {
     return function(k){
       if ( k === 0 ) return 0;
       if ( k === 1 ) return 1;
-      if ( ( k *= 2 ) < 1 ) return 0.5 * Math.pow( 1024, k - 1 );
+      k *= 2;
+      if ( k < 1 ) return 0.5 * Math.pow( 1024, k - 1 );
       return 0.5 * ( - Math.pow( 2, - 10 * ( k - 1 ) ) + 2 );
     };
   },
@@ -136,7 +142,8 @@ const Easing = {
 
   inOutCirc: function(){
     return function(k){
-      if ( ( k *= 2 ) < 1) return - 0.5 * ( Math.sqrt( 1 - k * k) - 1);
+      k *= 2
+      if ( k < 1) return - 0.5 * ( Math.sqrt( 1 - k * k) - 1);
       return 0.5 * ( Math.sqrt( 1 - (k - 2) * (k - 2)) + 1);
     };
   },
@@ -171,7 +178,8 @@ const Easing = {
       if ( k === 1 ) return 1;
       if ( !a || a < 1 ) { a = 1; s = p / 4; }
       else s = p * Math.asin( 1 / a ) / ( 2 * Math.PI );
-      if ( ( k *= 2 ) < 1 ) return - 0.5 * ( a * Math.pow( 2, 10 * ( k - 1 ) ) * Math.sin( ( (k-1) - s ) * ( 2 * Math.PI ) / p ) );
+      k *= 2;
+      if ( k < 1 ) return - 0.5 * ( a * Math.pow( 2, 10 * ( k - 1 ) ) * Math.sin( ( (k-1) - s ) * ( 2 * Math.PI ) / p ) );
       return a * Math.pow( 2, -10 * ( k - 1 ) ) * Math.sin( ( (k-1) - s ) * ( 2 * Math.PI ) / p ) * 0.5 + 1;
     };
   },
@@ -193,7 +201,8 @@ const Easing = {
   inOutBack: function(v){
     return function(k){
       let s =  (v || 1.70158) * 1.525;
-      if ( ( k *= 2 ) < 1 ) return 0.5 * ( k * k * ( ( s + 1 ) * k - s ) );
+      k *= 2;
+      if ( k < 1 ) return 0.5 * ( k * k * ( ( s + 1 ) * k - s ) );
       return 0.5 * ( ( k - 2 ) * (k-2) * ( ( s + 1 ) * (k-2) + s ) + 2 );
     };
   },

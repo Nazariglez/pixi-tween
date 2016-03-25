@@ -223,7 +223,6 @@ function _recursiveApplyTween(to, from, target, time, elapsed, easing){
       let c = to[k] - from[k];
       let d = time;
       let t = elapsed/d;
-
       target[k] = b+(c*easing(t));
     }else{
       _recursiveApplyTween(to[k], from[k], target[k], time, elapsed, easing);
