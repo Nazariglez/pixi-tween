@@ -45,7 +45,7 @@ animate();
 ```
 
 ### How it works
-This plugin add a new namespace names `tween` to the PIXI namespace, and this new namespace has 3 new classes Tween, TweenPath and TweenManager, also add an Easing object. And create an instance for TweenManager in PIXI.tweenManager, but all you need is add PIXI.tweenManager.update() in your requestAnimationFrame. You can pass as params for `PIXI.tweenManager.updaye(delta)` your own delta time, if you don't pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/) plugin.
+This plugin add a new namespace names `tween` to the PIXI namespace, and this new namespace has 3 new classes Tween, TweenPath and TweenManager, also add an Easing object. And create an instance for TweenManager in PIXI.tweenManager, but all you need is add PIXI.tweenManager.update() in your requestAnimationFrame. You can pass as params for `PIXI.tweenManager.update(delta)` your own delta time, if you don't pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/) plugin.
 
 When a tween is ended, the instance will kept in the memory and in the tweenManager, but you can prevent this if you set .expire = true in the tween.
 
@@ -76,3 +76,51 @@ Tween extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemit
 
 ### Paths
 Move an object along a path it's easy with TweenPath. TweenPath use a similar PIXI.Graphics API to create paths, and once it's created our path we just need to add it to a tween with .path = ourPathCreated.
+
+If you need draw your path (useful to debug), PIXI.Graphics has been enhanced with a new method named .drawPath(path). Use it the same way like .drawRectanle, .drawShape, etc...
+
+### Examples
+See the [Examples](https://github.com/Nazariglez/pixi-tween/tree/master/examples) folder.
+
+## API
+### TweenManager
+#### constructor()
+The constructor
+#### .tweens
+An array with the tweens created
+#### .update( delta )
+The update method, make sure it is in the raf. You can pass a fixed delta time (like 0.016), your own calculated delta, or nothing. (Delta time in seconds not milliseconds).
+#### .removeTween( tween )
+Remove a tween from the .tweens array in the next frame.
+#### .addTween( tween )
+Normally you want to use .createTween(target) to create a tween, but, you can also create a tween with new PIXI.Tween(target) and add it in the manager with this method.  
+#### .createTween( target )
+Return a new instance of PIXI.Tween managed by this tweenManager.
+#### .getTweensForTarget( target )
+Return an array with all the tweens for the given target.
+
+### TweenPath
+#### constructor()
+The constructor
+#### .moveTo( x, y )
+See [PIXI.Graphics#moveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#moveTo)
+#### .lineTo( x, y )
+See [PIXI.Graphics#lineTo](https://pixijs.github.io/docs/PIXI.Graphics.html#lineTo)
+#### .bezierCurveTo( cpX, cpY, cpX2, cpY2, toX, toY )
+See [PIXI.Graphics#bezierCurveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#bezierCurveTo)
+#### .quadraticCurveTo( cpX, cpY, toX, toY )
+See [PIXI.Graphics#quadraticCurveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#quadraticCurveTo)
+#### .arcTo( x1, y1, x2, y2, radius )
+See [PIXI.Graphics#arcTo](https://pixijs.github.io/docs/PIXI.Graphics.html#arcTo)
+#### .arc( cx, cy, radius, startAngle, endAngle, anticlockwise )
+See [PIXI.Graphics#arc](https://pixijs.github.io/docs/PIXI.Graphics.html#arc)
+#### .drawShape( shape )
+See [PIXI.Graphics#drawShape](https://pixijs.github.io/docs/PIXI.Graphics.html#drawShape)
+#### .clear()
+Clear the path.
+#### .closed
+Set true to close your path.
+#### .length
+Get the points number
+
+### Tween
