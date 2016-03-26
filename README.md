@@ -124,3 +124,56 @@ Set true to close your path.
 Get the points number
 
 ### Tween
+#### constructor( target [,manager] )
+The constructor
+#### .target
+The object to animate
+#### .manager
+The TweenManager who manage this tween
+#### .time
+The animation time
+#### .active
+Read only, true if a tween is running
+#### .easing
+A easing function from PIXI.tween.Easing or a custom easing.
+#### .expire
+Set true if you want to delete this instance when the animation it's done.
+#### .repeat
+Times to repeat this tween.
+#### .loop
+Repeat this tween forever.
+#### .delay
+Set a delay time in milliseconds before the timer's count.
+#### .pingPong
+Set true to repeat back this tween.
+#### .isStarted
+Read only.
+#### .isEnded
+Read only.
+#### .path
+Set an instance of TweenPath to animate an object along the path.
+#### .pathReverse
+Reverse the path.
+#### .addTo( manager )
+Add this tween to a manager
+#### .chain( tween )
+When this tween it's finished, fire the chained tween.
+#### .start()
+Start the tween
+#### .stop()
+Stop the tween
+#### .to( object )
+Set the params to animate. Example: {x:100, y:100}
+#### .from( object )
+Set the params to start the animation. If you don't call .from the the values will be the actual values of the .to object.
+#### .remove()
+Remove this tween from the manager.
+#### .clear()
+Clear this tween.
+#### .reset()
+Reset this tween to the initial state, keeping the data like .time, .delay, etc...
+#### update( delta [,deltaMS] )
+The update method, you don't need to use this method, the manager will do this internally.
+
+### Easing
+See [Easing](https://github.com/Nazariglez/pixi-tween/blob/master/src/Easing.js)
