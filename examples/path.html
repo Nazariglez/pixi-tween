@@ -19,12 +19,6 @@
     document.body.appendChild(renderer.view);
     var stage = new PIXI.Container();
 
-    var t = new PIXI.Graphics()
-      .beginFill(0xf0f000)
-      .drawRect(0, 0, 10, 10)
-      .endFill()
-      .generateTexture();
-
     var raf;
     function animate(){
       raf = window.requestAnimationFrame(animate);
@@ -52,7 +46,7 @@
     stage.addChild(gPath);
 
     //Object to move along the path
-    var sprite = new PIXI.Sprite(t);
+    var sprite = new PIXI.Sprite.fromImage('./bunny.png')
     //sprite.position.set(100,100);
     sprite.anchor.set(0.5, 0.5);
     stage.addChild(sprite);
@@ -60,7 +54,7 @@
     //Tween animation
     var tween = PIXI.tweenManager.createTween(sprite);
     tween.path = path;
-    tween.time = 10000;
+    tween.time = 13000;
     tween.easing = PIXI.tween.Easing.outBounce();
     //tween.pathReverse  =true;
     tween.loop = true;
