@@ -120,14 +120,17 @@
       this.start = function(){
         tweenY.start();
         tweenX.start();
+        movement.clear();
       }
       this.stop = function(){
         tweenX.stop();
         tweenY.stop();
+        movement.clear();
       }
       this.reset = function(){
         tweenX.reset();
         tweenY.reset();
+        movement.clear();
       }
       this._easing = "linear";
     }
