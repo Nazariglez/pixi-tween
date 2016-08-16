@@ -26,7 +26,7 @@ var stage = new PIXI.Container();
 function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
-  PIXI.tween.update();
+  PIXI.tweenManager.update();
 }
 animate();
 ```
@@ -41,7 +41,7 @@ var stage = new PIXI.Container();
 function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
-  PIXI.tween.update();
+  PIXI.tweenManager.update();
 }
 animate();
 ```
@@ -58,7 +58,7 @@ document.body.appendChild(renderer.view);
 
 var animationLoop = new PIXI.AnimationLoop(renderer);
 
-//Add a postrender or prerender event to add the tween.update in the raf.
+//Add a postrender or prerender event to add the tweenManager.update in the raf.
 animationLoop.on('postrender', function(){
   PIXI.tweenManager.update(this.delta); //Pass as param the delta time to PIXI.tweenManager.update
 });
