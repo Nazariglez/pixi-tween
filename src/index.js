@@ -1,4 +1,5 @@
-import PIXI from'pixi.js';
+import * as PIXI from 'pixi.js';
+
 import TweenManager from './TweenManager';
 import Tween from './Tween';
 import TweenPath from './TweenPath';
