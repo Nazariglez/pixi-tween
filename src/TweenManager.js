@@ -19,7 +19,6 @@ export default class TweenManager {
 
     for(let i = 0; i < this.tweens.length; i++){
       let tween = this.tweens[i];
-      //console.log(tween.active, tween.isEnded, tween.expire );
       if(tween.active){
         tween.update(delta, deltaMS);
       }
