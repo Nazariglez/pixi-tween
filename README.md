@@ -3,7 +3,7 @@ pixi-tween
 
 pixi-tween is a plugin for Pixi.js v3.0.8 or higher to create tween animations.
 
-__Online examples:__ [Easing](https://dl.dropboxusercontent.com/u/55562404/pixi-tween/examples/easing.html), [TweenPath](https://dl.dropboxusercontent.com/u/55562404/pixi-tween/examples/path.html)
+__Online examples:__ [Easing](https://themoonrat.github.io/pixi-tween/examples/easing.html), [TweenPath](https://themoonrat.github.io/pixi-tween/examples/path.html)
 
 ## Installation
 ```
