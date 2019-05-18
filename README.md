@@ -3,7 +3,7 @@ pixi-tween
 
 pixi-tween is a plugin for Pixi.js v3.0.8 or higher to create tween animations.
 
-__Online examples:__ [Easing](https://dl.dropboxusercontent.com/u/55562404/pixi-tween/examples/easing.html), [TweenPath](https://dl.dropboxusercontent.com/u/55562404/pixi-tween/examples/path.html)
+__Online examples:__ [Easing](https://themoonrat.github.io/pixi-tween/examples/easing.html), [TweenPath](https://themoonrat.github.io/pixi-tween/examples/path.html)
 
 ## Installation
 ```
@@ -79,7 +79,7 @@ Tween extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemit
 ### Paths
 Move an object along a path it's easy with TweenPath. TweenPath use a similar PIXI.Graphics API to create paths, and once it's created our path we just need to add it to a tween with .path = ourPathCreated.
 
-If you need draw your path (useful to debug), PIXI.Graphics has been enhanced with a new method named .drawPath(path). Use it the same way like .drawRectanle, .drawShape, etc...
+If you need draw your path (useful to debug), PIXI.Graphics has been enhanced with a new method named .drawPath(path). Use it the same way like .drawRectangle, .drawShape, etc...
 
 ### Examples
 See the [Examples](https://github.com/Nazariglez/pixi-tween/tree/master/examples) folder.
@@ -105,19 +105,19 @@ Return an array with all the tweens for the given target.
 #### constructor()
 The constructor
 #### .moveTo( x, y )
-See [PIXI.Graphics#moveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#moveTo)
+See [PIXI.Graphics#moveTo](http://pixijs.download/release/docs/PIXI.Graphics.html#moveTo)
 #### .lineTo( x, y )
-See [PIXI.Graphics#lineTo](https://pixijs.github.io/docs/PIXI.Graphics.html#lineTo)
+See [PIXI.Graphics#lineTo](http://pixijs.download/release/docs/PIXI.Graphics.html#lineTo)
 #### .bezierCurveTo( cpX, cpY, cpX2, cpY2, toX, toY )
-See [PIXI.Graphics#bezierCurveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#bezierCurveTo)
+See [PIXI.Graphics#bezierCurveTo](http://pixijs.download/release/docs/PIXI.Graphics.html#bezierCurveTo)
 #### .quadraticCurveTo( cpX, cpY, toX, toY )
-See [PIXI.Graphics#quadraticCurveTo](https://pixijs.github.io/docs/PIXI.Graphics.html#quadraticCurveTo)
+See [PIXI.Graphics#quadraticCurveTo](http://pixijs.download/release/docs/PIXI.Graphics.html#quadraticCurveTo)
 #### .arcTo( x1, y1, x2, y2, radius )
-See [PIXI.Graphics#arcTo](https://pixijs.github.io/docs/PIXI.Graphics.html#arcTo)
+See [PIXI.Graphics#arcTo](http://pixijs.download/release/docs/PIXI.Graphics.html#arcTo)
 #### .arc( cx, cy, radius, startAngle, endAngle, anticlockwise )
-See [PIXI.Graphics#arc](https://pixijs.github.io/docs/PIXI.Graphics.html#arc)
+See [PIXI.Graphics#arc](http://pixijs.download/release/docs/PIXI.Graphics.html#arc)
 #### .drawShape( shape )
-See [PIXI.Graphics#drawShape](https://pixijs.github.io/docs/PIXI.Graphics.html#drawShape)
+See [PIXI.Graphics#drawShape](http://pixijs.download/release/docs/PIXI.Graphics.html#drawShape)
 #### .clear()
 Clear the path.
 #### .closed
