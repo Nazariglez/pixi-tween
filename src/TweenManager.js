@@ -21,9 +21,9 @@ export default class TweenManager {
       let tween = this.tweens[i];
       if(tween.active){
         tween.update(delta, deltaMS);
-        if(tween.isEnded && tween.expire){
-          tween.remove();
-        }
+      }
+      if (tween.isEnded && tween.expire) {
+        tween.remove();
       }
     }
 
@@ -57,7 +57,7 @@ export default class TweenManager {
 
   _remove(tween){
     let index = this.tweens.indexOf(tween);
-    if(index !== -1)this.tweens.splice(index, 1);
+    if(index !== -1) this.tweens.splice(index, 1);
   }
 
   _getDeltaMS(){
