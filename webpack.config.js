@@ -1,6 +1,5 @@
 const production = process.env.NODE_ENV === "production";
 const path = require("path");
-const DtsBundlePlugin = require("dts-bundle-webpack");
 
 const distPath = path.resolve(__dirname, "./build");
 
@@ -25,13 +24,6 @@ let config = {
     "pixi.js": "PIXI"
   }],
   mode: production ? "production" : "development",
-  plugins: [
-    new DtsBundlePlugin({
-      name: "pixi-tween",
-      main: "./types/main.d.ts",
-      out: "../index.d.ts",
-    })
-  ]
 };
 
 module.exports = config;

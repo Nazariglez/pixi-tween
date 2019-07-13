@@ -23,7 +23,6 @@
     "build": "NODE_ENV=production webpack --progress --colors && node merge_declarations.js"
   },
   "devDependencies": {
-    "dts-bundle-webpack": "^1.0.2",
     "pixi.js": "^5.0.4",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
