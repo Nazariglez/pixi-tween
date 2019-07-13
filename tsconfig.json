@@ -7,6 +7,8 @@
         "lib": [
             "esnext",
             "dom"
-        ]
+        ],
+        "outDir": "./build/types",
+        "declaration": true
     }
 }
