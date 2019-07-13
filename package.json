@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "pixi-tween is a plugin for Pixi.js v4.1 or higher to create ...",
   "main": "./build/pixi-tween.js",
-  "types": "./build/pixi-tween.d.ts",
+  "types": "index.d.ts",
   "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "dev": "webpack --progress --colors --watch",
-    "build": "NODE_ENV=production webpack --progress --colors"
+    "build": "NODE_ENV=production webpack --progress --colors && node merge_declarations.js"
   },
   "devDependencies": {
     "dts-bundle-webpack": "^1.0.2",

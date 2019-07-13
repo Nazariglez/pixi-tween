@@ -1,0 +1,34 @@
+export declare type Ease = (number: any) => number;
+export declare class Easing {
+    static linear(): Ease;
+    static inQuad(): Ease;
+    static outQuad(): Ease;
+    static inOutQuad(): Ease;
+    static inCubic(): Ease;
+    static outCubic(): Ease;
+    static inOutCubic(): Ease;
+    static inQuart(): Ease;
+    static outQuart(): Ease;
+    static inOutQuart(): Ease;
+    static inQuint(): Ease;
+    static outQuint(): Ease;
+    static inOutQuint(): Ease;
+    static inSine(): Ease;
+    static outSine(): Ease;
+    static inOutSine(): Ease;
+    static inExpo(): Ease;
+    static outExpo(): Ease;
+    static inOutExpo(): Ease;
+    static inCirc(): Ease;
+    static outCirc(): Ease;
+    static inOutCirc(): Ease;
+    static inElastic(a?: number, p?: number): Ease;
+    static outElastic(a?: number, p?: number): Ease;
+    static inOutElastic(a?: number, p?: number): Ease;
+    static inBack(v: number): Ease;
+    static outBack(v: number): Ease;
+    static inOutBack(v: number): Ease;
+    static inBounce(): Ease;
+    static outBounce(): Ease;
+    static inOutBounce(): Ease;
+}

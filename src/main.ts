@@ -18,22 +18,6 @@ const tween = {
 
 export default tween;
 
-declare module "pixi.js" {
-    export module PIXI {
-        export class Graphics {
-            drawPath(path: TweenPath): PIXI.Graphics;
-        }
-
-        const tweenManager: TweenManager;
-        const tween: {
-            TweenManager: TweenManager,
-            Tween: Tween,
-            Easing: Easing,
-            TweenPath: TweenPath
-        };
-    }
-}
-
 (function() {
     if(!(PIXI as any).tweenManager) {
         (PIXI as any).tweenManager = new TweenManager();

@@ -28,8 +28,8 @@ let config = {
   plugins: [
     new DtsBundlePlugin({
       name: "pixi-tween",
-      main: "./build/types/main.d.ts",
-      out: "../pixi-tween.d.ts",
+      main: "./types/main.d.ts",
+      out: "../index.d.ts",
     })
   ]
 };

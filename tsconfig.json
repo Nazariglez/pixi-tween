@@ -8,7 +8,7 @@
             "esnext",
             "dom"
         ],
-        "outDir": "./build/types",
+        "outDir": "./types",
         "declaration": true
     }
 }
