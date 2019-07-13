@@ -23,6 +23,7 @@
     "build": "NODE_ENV=production webpack --progress --colors && node merge_declarations.js"
   },
   "devDependencies": {
+    "lodash": "^4.17.14",
     "pixi.js": "^5.0.4",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",

@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { Easing, Ease} from './Easing';
 import TweenManager from './TweenManager';
 import TweenPath from './TweenPath';
+import * as cloneDeep from 'lodash/fp/cloneDeep';
 
 export default class Tween extends PIXI.utils.EventEmitter {
     private _manager: TweenManager;
@@ -208,7 +209,6 @@ export default class Tween extends PIXI.utils.EventEmitter {
 
     _parseData() {
         if (this.isStarted) return;
-
         if (!this._from) this._from = {};
         _parseRecursiveData(this._to, this._from, this.target);
 
@@ -256,7 +256,7 @@ export default class Tween extends PIXI.utils.EventEmitter {
 
 function _recursiveApplyTween(to:any, from:any, target:any, time:number, elapsed:number, easing:Ease) {
     for (let k in to) {
-        if(_isObject[to[k]]){
+        if(_isObject(to[k])){
             return _recursiveApplyTween(to[k], from[k], target[k], time, elapsed, easing);
         }
         
@@ -272,7 +272,7 @@ function _parseRecursiveData(to:any, from:any, target:any) {
     for (let k in to) {
         if (from[k] !== 0 && !from[k]) {
             if (_isObject(target[k])) {
-                from[k] = JSON.parse(JSON.stringify(target[k]));
+                from[k] = cloneDeep(target[k]);
                 return _parseRecursiveData(to[k], from[k], target[k]);
             }
 
