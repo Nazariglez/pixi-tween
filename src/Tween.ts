@@ -141,6 +141,7 @@ export default class Tween extends PIXI.utils.EventEmitter {
         }
 
         let time = (this.pingPong) ? this.time / 2 : this.time;
+
         if (time > this._elapsedTime) {
             let t = this._elapsedTime + deltaMS;
             let ended = (t >= time);
@@ -257,7 +258,8 @@ export default class Tween extends PIXI.utils.EventEmitter {
 function _recursiveApplyTween(to:any, from:any, target:any, time:number, elapsed:number, easing:Ease) {
     for (let k in to) {
         if(_isObject(to[k])){
-            return _recursiveApplyTween(to[k], from[k], target[k], time, elapsed, easing);
+            _recursiveApplyTween(to[k], from[k], target[k], time, elapsed, easing);
+            continue;
         }
         
         let b = from[k];
